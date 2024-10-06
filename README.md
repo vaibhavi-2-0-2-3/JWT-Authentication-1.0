@@ -1,2 +1,2 @@
-# JWT Authentication 1.0
+# JWT Authentication and Authorization
  
