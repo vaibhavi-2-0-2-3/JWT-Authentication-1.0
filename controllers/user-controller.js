@@ -36,7 +36,7 @@ const login = async(req,res, next) => {
 
   let exisitingUser;
   try{
-    exisitingUser = await User.fondOne({email: email});
+    exisitingUser = await User.findOne({email: email});
 
   }catch(err) {
     return new Error(err);
@@ -44,7 +44,7 @@ const login = async(req,res, next) => {
   if(!exisitingUser){
     return res.status(400).json({message:"User not found, signup Please"})
   }
-  const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
+  const isPasswordCorrect = bcrypt.compareSync(password, exisitingUser.password);
   if(!isPasswordCorrect){
     return res.status(400).json({message:'Invalid Email / Password'})
   }
