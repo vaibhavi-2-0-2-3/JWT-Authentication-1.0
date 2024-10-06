@@ -31,4 +31,26 @@ const signup = async(req, res, next) => {
   return res.status(201).json({message:user});
 };
 
+const login = async(req,res, next) => {
+  const {email, password } = req.body;
+
+  let exisitingUser;
+  try{
+    exisitingUser = await User.fondOne({email: email});
+
+  }catch(err) {
+    return new Error(err);
+  }
+  if(!exisitingUser){
+    return res.status(400).json({message:"User not found, signup Please"})
+  }
+  const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
+  if(!isPasswordCorrect){
+    return res.status(400).json({message:'Invalid Email / Password'})
+  }
+  return res.status(200).json({message:'Successfully Logged In'})
+
+}
+
 exports.signup = signup;
+exports.login = login;
