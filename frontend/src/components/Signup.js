@@ -19,14 +19,19 @@ function Signup() {
   };
 
   const sendRequest = async () => {
+  try {
     const res = await axios.post('http://localhost:5000/api/signup', {
       name: inputs.name,
       email: inputs.email,
       password: inputs.password
-    }).catch(err => console.log(err));
-    const data = await res.data;
-    return data;
+    });
+    if (res && res.data) {
+      return res.data; // Ensure res.data exists before returning
+    }
+  } catch (err) {
+    console.log("Error in signup request:", err);
   }
+};
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent form from reloading
