@@ -163,7 +163,33 @@ const refreshToken = (req, res, next) => {
   });
 };
 
+const logout = (req, res, next) => {
+  const cookies = req.headers.cookie;
+  
+  // Check if cookies exist and if the token is present
+  if (!cookies) {
+    return res.status(400).json({ message: "No token found" });
+  }
 
+  const prevToken = cookies.split("=")[1]; // Extract token from the cookie
+  if (!prevToken) {
+    return res.status(400).json({ message: "Couldn't find token" });
+  }
+
+  // Verify the previous token
+  jwt.verify(String(prevToken), process.env.JWT_SECRET_KEY, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(403).json({ message: "Authentication failed" });
+    }
+
+    // Clear the previous token cookie
+    res.clearCookie(`${user.id}`);
+    return res.status(200).json({message: "Successfully Loged Out"});
+  });
+}
+
+exports.logout = logout;
 exports.signup = signup;
 exports.login = login;
 exports.verifyToken = verifyToken;
