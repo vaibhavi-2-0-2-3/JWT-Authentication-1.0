@@ -49,7 +49,7 @@ function Login() {
         if (data) {
           // If login is successful, redirect
           // localStorage.setItem('token', data.token); // Example if JWT is received
-          history("/user"); // Redirect to a dashboard or other route
+          history("/user"); // Redirect to user dashboard
         }
       })
       .catch((err) => {
